@@ -1,0 +1,31 @@
+services:
+  mobit.web:
+    image: adnanioricce/mobitweb:dev
+    build:
+      context: Mobit.Web
+      dockerfile: Dockerfile
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=mobit.db;Username=morbitpass;Password=morbitpass;Database=morbitdb"
+    ports:
+      - "5080:8080"
+    networks:
+      - mobitnet
+  mobit.db:
+    image: adnanioricce/mobitdb:dev
+    build:
+      context: Database
+    ports:
+      - "5456:5432"
+      #environment:
+      #POSTGRES_DB: mobitdb
+      #POSTGRES_USER: mobituser
+      #POSTGRES_PASSWORD: mobitpass
+    networks:
+      - mobitnet
+
+networks:
+  mobitnet:
+    driver: bridge
+
+
+
