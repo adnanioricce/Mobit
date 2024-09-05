@@ -1,5 +1,6 @@
 namespace Mobit.Services;
 
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mobit.Models;
@@ -8,11 +9,11 @@ using Mobit.Web.Data;
 public record Pagination(int PageNumber,int PageCount);
 public record ProductDto(int Id,int Quantity,decimal Price,string Title,string Category,string Description);
 public interface IProductService 
-{
-	Task<IEnumerable<ProductDto>> LoadProductsFromCsv(string csvFilePath);
+{	
 	Task<IEnumerable<ProductDto>> GetProductsAsync(Pagination pagination);
 	Task<ProductDto?> GetProductByIdAsync(int productId);
 	Task<ProductDto?> CreateProductAsync(ProductDto product);
+	Task CreateProductsAsync(IEnumerable<Product> products);
 	Task EditProductAsync(int productId,ProductDto product);
 	Task DeleteProductAsync(int productId);
 	
@@ -25,11 +26,7 @@ public class StandardProductService : IProductService
 	{
 		_ctx = ctx;		
 	}
-	public async Task<IEnumerable<ProductDto>> LoadProductsFromCsv(string csvFilePath)
-	{
-		return [];
-	}
-
+	
 	public async Task<IEnumerable<ProductDto>> GetProductsAsync(Pagination pagination)
 	{
 		var products = await _ctx.Products
@@ -55,8 +52,13 @@ public class StandardProductService : IProductService
 		await _ctx.SaveChangesAsync();
 		return Product.To(product);
 	}
+	public async Task CreateProductsAsync(IEnumerable<Product> products)
+    {		
+        await _ctx.Products.AddRangeAsync(products);
+        await _ctx.SaveChangesAsync();
+    }
 
-	public async Task EditProductAsync(int productId,ProductDto dto)
+    public async Task EditProductAsync(int productId,ProductDto dto)
 	{
 		var existingProduct = await _ctx.Products.FindAsync(productId);
 		

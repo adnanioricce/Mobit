@@ -1,0 +1,12 @@
+.product-list-container {
+    margin: 20px;
+}
+
+table {
+    width: 100%;
+}
+
+mat-toolbar {
+    margin-bottom: 20px;
+}
+  

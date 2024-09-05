@@ -35,6 +35,9 @@ public record Product(
 public static class ProductValidator
 {
    public static IEnumerable<ValidationResult> Validate(this Product product){
+      if(product is null){
+         throw new ArgumentNullException(nameof(product),"validation method received a null product as argument");
+      }
       if(product.Quantity < 0){
          yield return new ValidationResult("it's not possible to define a product with a negative quantity",
          new [] {

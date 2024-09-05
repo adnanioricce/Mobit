@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../environments/environment';
-// Define the ProductDto interface based on the C# ProductDto class.
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+
 export interface ProductDto {
   id: number;
   quantity: number;
@@ -50,5 +51,31 @@ export class ProductsService {
   // DELETE: api/products/{id}
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  // POST: api/products/upload
+  uploadCsv(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+
+    return this.http.post(`${this.apiUrl}/upload`, formData)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  // Error handling function
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // Client-side or network error
+      console.error('An error occurred:', error.error.message);
+    } 
+    else {
+      // Backend error
+      console.error(
+        `Backend returned code ${error.status},
+        body was: ${error.error}`);
+    }
+    return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 }

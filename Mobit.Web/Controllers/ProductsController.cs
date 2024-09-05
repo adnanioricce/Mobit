@@ -3,6 +3,7 @@ namespace Mobit.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mobit.Extensions;
+using Mobit.Models;
 using Mobit.Services;
 using Mobit.Web;
 using System.Threading.Tasks;
@@ -52,6 +53,8 @@ public class ProductsController : ControllerBase
       var func = this.HandleEndpoint(async () => {
          
          var createdProduct = await _productService.CreateProductAsync(product);
+         
+         _logger.LogInformation("new product inserted -> {product}!",createdProduct);
 
          return Ok(createdProduct);
       }
@@ -64,7 +67,7 @@ public class ProductsController : ControllerBase
       var func = this.HandleEndpoint(async () => {
          
          await _productService.EditProductAsync(product.Id,product);
-
+         _logger.LogInformation("product with Id = {id} was updated successfully!",product.Id);
          return Ok();
       }
       ,_logger);
@@ -80,6 +83,27 @@ public class ProductsController : ControllerBase
          return Ok();
       }
       ,_logger);
+      return await func();
+   }
+   [HttpPost("upload")]
+   public async Task<IActionResult> UploadCsv(IFormFile file)
+   {
+      var func = this.HandleEndpoint(async () => {
+         if (file == null || file.Length == 0)
+         {
+            _logger.LogInformation("Received a empty form file on upload of product data");
+            return BadRequest("File is empty or missing.");
+         }
+         using var rd = new StreamReader(file.OpenReadStream());
+         
+         var products = CsvReader.ReadProductsFromCsv(rd);   
+
+         await _productService.CreateProductsAsync(products);
+         
+         _logger.LogInformation("{count} Products inserted successfully on upload of file {fileName}!",products.Count(),file.Name);
+
+         return Ok();
+      },_logger);
       return await func();
    }
 }
