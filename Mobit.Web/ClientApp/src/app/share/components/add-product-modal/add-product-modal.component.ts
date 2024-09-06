@@ -23,7 +23,7 @@ export class AddProductModalComponent implements OnInit {
       category: ['', Validators.required],
       price: [0, [Validators.required, Validators.min(0.01)]],
       quantity: [0, [Validators.required, Validators.min(1)]],
-      description: ['', Validators.maxLength(256)]
+      description: ['', Validators.required]
     });
   }
 

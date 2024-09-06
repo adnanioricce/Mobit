@@ -25,7 +25,7 @@ export class EditProductModalComponent implements OnInit {
       category: [this.data.category, Validators.required],
       price: [this.data.price, Validators.required],
       quantity: [this.data.quantity, Validators.required],
-      description: [this.data.description, Validators.maxLength(256)]
+      description: [this.data.description, Validators.required]
     });
   }
 
