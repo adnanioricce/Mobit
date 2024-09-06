@@ -43,17 +43,18 @@ public static class CsvReader
 
     private static Product MapLineToProduct(string line)
     {                
+        var values = line.Substring(14).Trim().Split("  ",StringSplitOptions.RemoveEmptyEntries);
         try
         {
             var Id = int.Parse(line.Substring(0, 14).Trim());
-            var Category = line.Substring(14, 20).Trim();
-            var Title = line.Substring(34, 35).Trim();
-            var Description = line.Substring(69, 100).Trim();
-            var Price = decimal.Parse(line.Substring(169, 9).Trim(), CultureInfo.InvariantCulture);
-            var StockCode = line.Substring(178).Trim();
+            var Category = values[0].Trim();
+            var Title = values[1].Trim();
+            var Description = values[2].Trim();
+            var Price = int.Parse(values[3]) / 100.0m;
+            var quantity = int.Parse(string.Join("", values[4].Where(ch => char.IsDigit(ch)).ToArray()));
             var product = new Product(
                 Id,
-                0,
+                quantity,
                 Price,
                 Title,
                 Category,
@@ -65,7 +66,9 @@ public static class CsvReader
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error parsing line: {ex.Message}");
+            Console.WriteLine($"Error parsing line: {ex}");
+            // var values = line.Substring(14).Trim().Split("\t",StringSplitOptions.RemoveEmptyEntries);
+            Console.WriteLine("values = {0}",string.Join(",", values));
             return null;
         }
     }

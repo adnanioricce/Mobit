@@ -28,7 +28,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductListComponent } from './product/product-list.component';
-import { EditProductModalComponent } from './product/product-edit-modal.component';
+import { EditProductModalComponent } from './product/edit-product-modal.component';
 import { AddProductModalComponent } from './product/add-product-modal.component';
 import { ProductDetailsComponent } from './product/product.component';
 @NgModule({
@@ -41,7 +41,8 @@ import { ProductDetailsComponent } from './product/product.component';
     UploadComponent,
     ProductListComponent,
     AddProductModalComponent,
-    EditProductModalComponent
+    EditProductModalComponent,
+    ProductDetailsComponent
   ],
   imports: [
     MatTableModule,
@@ -62,6 +63,7 @@ import { ProductDetailsComponent } from './product/product.component';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' }
       ,{ path: 'counter', component: CounterComponent }
+      ,{ path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] }
       ,{ path: 'products', component: ProductListComponent, canActivate: [AuthorizeGuard] }
       ,{ path: 'products/:id', component: ProductDetailsComponent, canActivate: [AuthorizeGuard] }
     ]),

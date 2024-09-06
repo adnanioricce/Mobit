@@ -9,7 +9,7 @@ using Mobit.Web;
 using System.Threading.Tasks;
 [Authorize]
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class ProductsController : ControllerBase 
 {
    private readonly IProductService _productService;
@@ -34,7 +34,7 @@ public class ProductsController : ControllerBase
       ,_logger);
       return await func();
    }
-   [HttpGet("")]
+   [HttpGet]
    public async Task<IActionResult> List(int page = 1,int pageCount = 100)
    {
       var func = this.HandleEndpoint(async () => {
@@ -47,8 +47,8 @@ public class ProductsController : ControllerBase
       ,_logger);
       return await func();
    }
-   [HttpPost("")]
-   public async Task<IActionResult> Create([FromBody]ProductDto product)
+   [HttpPost]
+   public async Task<IActionResult> Post([FromBody]ProductDto product)
    {
       var func = this.HandleEndpoint(async () => {
          
@@ -61,8 +61,8 @@ public class ProductsController : ControllerBase
       ,_logger);
       return await func();
    }
-   [HttpPut("")]
-   public async Task<IActionResult> Edit([FromBody]ProductDto product)
+   [HttpPut]
+   public async Task<IActionResult> Put([FromBody]ProductDto product)
    {
       var func = this.HandleEndpoint(async () => {
          
@@ -96,11 +96,11 @@ public class ProductsController : ControllerBase
          }
          using var rd = new StreamReader(file.OpenReadStream());
          
-         var products = CsvReader.ReadProductsFromCsv(rd);   
+         var products = CsvReader.ReadProductsFromCsv(rd).ToList();
 
          await _productService.CreateProductsAsync(products);
          
-         _logger.LogInformation("{count} Products inserted successfully on upload of file {fileName}!",products.Count(),file.Name);
+         _logger.LogInformation("{count} Products inserted successfully on upload of file {fileName}!",products.Count,file.FileName);
 
          return Ok();
       },_logger);

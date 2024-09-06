@@ -4,8 +4,8 @@ import { ProductsService, ProductDto } from './products.service';
 
 @Component({
   selector: 'app-product-details',
-  templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.css']
+  templateUrl: './product.component.html',
+  styleUrls: ['./product.component.css']
 })
 export class ProductDetailsComponent implements OnInit {
   product!: ProductDto;

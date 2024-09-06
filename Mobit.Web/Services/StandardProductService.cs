@@ -54,7 +54,12 @@ public class StandardProductService : IProductService
 	}
 	public async Task CreateProductsAsync(IEnumerable<Product> products)
     {		
-        await _ctx.Products.AddRangeAsync(products);
+		var ids = products.Select(p => p.Id).ToArray();
+		var existingProducts = await _ctx.Products.Where(p => ids.Contains(p.Id)).ToListAsync();
+		var updatedProducts = products.Where(p => existingProducts.Any(ep => ep.Id == p.Id));
+		var newProducts = products.Where(p => !existingProducts.Any(p => p.Id == p.Id)).ToList();
+        await _ctx.Products.AddRangeAsync(newProducts);
+		_ctx.Products.UpdateRange(updatedProducts);
         await _ctx.SaveChangesAsync();
     }
 
@@ -63,7 +68,7 @@ public class StandardProductService : IProductService
 		var existingProduct = await _ctx.Products.FindAsync(productId);
 		
 		if(existingProduct is null)
-			throw new KeyNotFoundException($"no product with Id = {dto.Id}");
+			throw new KeyNotFoundException($"no product with Id = {dto.Id} was found");
 		
 		var updatedProduct = existingProduct with {
 			Quantity = dto.Quantity

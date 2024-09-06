@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ProductsService, ProductDto } from './products.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { EditProductModalComponent } from './product-edit-modal.component';
+import { EditProductModalComponent } from './edit-product-modal.component';
 import { AddProductModalComponent } from './add-product-modal.component';
 
 @Component({
@@ -42,7 +42,7 @@ export class ProductListComponent implements OnInit {
   }
 
   viewDetails(id: number): void {
-    this.router.navigate(['/product-details', id]);
+    this.router.navigate(['/products', id]);
   }
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddProductModalComponent, {
@@ -67,7 +67,9 @@ export class ProductListComponent implements OnInit {
       }
     });
   }
-  
+  onUploadSuccess(): void {
+    this.loadProducts();    
+  }
   deleteProduct(id: number): void {
     this.productsService.deleteProduct(id).subscribe(() => {
       this.loadProducts(this.paginator.pageIndex, this.paginator.pageSize);

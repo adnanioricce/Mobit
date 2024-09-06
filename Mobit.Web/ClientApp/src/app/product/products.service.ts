@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -17,9 +17,11 @@ export interface ProductDto {
   providedIn: 'root'
 })
 export class ProductsService {
-  private apiUrl = `${environment.API_BASE_URL}/products`
+  private apiUrl = `${environment.API_BASE_URL}/api/products`
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,@Inject('BASE_URL') baseUrl: string) {
+    this.apiUrl = `${baseUrl}api/products`
+  }
 
   // GET: api/products/{id}
   getProductById(id: number): Observable<ProductDto> {
@@ -74,7 +76,7 @@ export class ProductsService {
       // Backend error
       console.error(
         `Backend returned code ${error.status},
-        body was: ${error.error}`);
+        body was: ${JSON.stringify(error)}`);
     }
     return throwError(() => new Error('Something bad happened; please try again later.'));
   }

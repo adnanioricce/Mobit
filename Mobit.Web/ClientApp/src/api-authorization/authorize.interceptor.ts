@@ -3,7 +3,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/c
 import { Observable } from 'rxjs';
 import { AuthorizeService } from './authorize.service';
 import { mergeMap } from 'rxjs/operators';
-
+import { environment } from "../environments/environment";
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +12,10 @@ export class AuthorizeInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return this.authorize.getAccessToken()
+      .pipe(e => {
+        console.log('token:',e)
+        return e 
+      })
       .pipe(mergeMap(token => this.processRequestWithToken(token, req, next)));
   }
 
@@ -19,7 +23,7 @@ export class AuthorizeInterceptor implements HttpInterceptor {
   // and adds it to the request in case it's targeted at the same origin as the
   // single page application.
   private processRequestWithToken(token: string | null, req: HttpRequest<any>, next: HttpHandler) {
-    if (!!token && this.isSameOriginUrl(req)) {
+    if (!!token && (this.isSameOriginUrl(req) || !environment.production)) {
       req = req.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`

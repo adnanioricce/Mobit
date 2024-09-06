@@ -1,16 +1,19 @@
 services:
-  mobit.web:
+  app:
     image: adnanioricce/mobitweb:dev
     build:
       context: Mobit.Web
       dockerfile: Dockerfile
     environment:
-      ConnectionStrings__DefaultConnection: "Host=mobit.db;Username=morbitpass;Password=morbitpass;Database=morbitdb"
+      ConnectionStrings__DefaultConnection: "Host=db;Username=mobituser;Password=mobitpass;Database=mobitdb"
+      ASPNETCORE_URLS: http://*:80
     ports:
-      - "5080:8080"
+      - "5080:80"          
+    depends_on:
+      - db
     networks:
       - mobitnet
-  mobit.db:
+  db:
     image: adnanioricce/mobitdb:dev
     build:
       context: Database
