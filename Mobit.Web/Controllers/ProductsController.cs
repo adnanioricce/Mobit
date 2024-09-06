@@ -98,7 +98,7 @@ public class ProductsController : ControllerBase
          
          var products = CsvReader.ReadProductsFromCsv(rd).ToList();
 
-         await _productService.CreateProductsAsync(products);
+         await _productService.CreateOrUpdateProductsAsync(products);
          
          _logger.LogInformation("{count} Products inserted successfully on upload of file {fileName}!",products.Count,file.FileName);
 

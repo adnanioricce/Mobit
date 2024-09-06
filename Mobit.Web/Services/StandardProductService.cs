@@ -5,19 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mobit.Models;
 using Mobit.Web.Data;
-
-public record Pagination(int PageNumber,int PageCount);
-public record ProductDto(int Id,int Quantity,decimal Price,string Title,string Category,string Description);
-public interface IProductService 
-{	
-	Task<IEnumerable<ProductDto>> GetProductsAsync(Pagination pagination);
-	Task<ProductDto?> GetProductByIdAsync(int productId);
-	Task<ProductDto?> CreateProductAsync(ProductDto product);
-	Task CreateProductsAsync(IEnumerable<Product> products);
-	Task EditProductAsync(int productId,ProductDto product);
-	Task DeleteProductAsync(int productId);
-	
-}
 // vou me permitir ser menos rigoroso aqui e chamar isso de "Service" ao invés de "Repository"
 public class StandardProductService : IProductService
 {
@@ -47,20 +34,33 @@ public class StandardProductService : IProductService
 
 	public async Task<ProductDto?> CreateProductAsync(ProductDto dto)
 	{
+		_ctx.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.TrackAll;
+		if(dto.Id != 0){
+			throw new ArgumentException("Can't create a new product with a Id != 0");
+		}
 		var product = Product.From(dto);
+		
 		_ctx.Products.Add(product);
 		await _ctx.SaveChangesAsync();
 		return Product.To(product);
 	}
-	public async Task CreateProductsAsync(IEnumerable<Product> products)
+	public async Task CreateOrUpdateProductsAsync(IEnumerable<Product> products)
     {		
-		var ids = products.Select(p => p.Id).ToArray();
-		var existingProducts = await _ctx.Products.Where(p => ids.Contains(p.Id)).ToListAsync();
-		var updatedProducts = products.Where(p => existingProducts.Any(ep => ep.Id == p.Id));
-		var newProducts = products.Where(p => !existingProducts.Any(p => p.Id == p.Id)).ToList();
-        await _ctx.Products.AddRangeAsync(newProducts);
+		var updatedProducts = await GetExistingProducts(products);		
 		_ctx.Products.UpdateRange(updatedProducts);
-        await _ctx.SaveChangesAsync();
+		await _ctx.SaveChangesAsync();
+						
+		var newProducts = products.Where(p => !updatedProducts.Any(up => up.Id == p.Id)).ToList();
+        await _ctx.Products.AddRangeAsync(newProducts);
+		await _ctx.SaveChangesAsync();
+    }
+
+    private async Task<IEnumerable<Product>> GetExistingProducts(IEnumerable<Product> products)
+    {
+		var ids = products.Select(p => p.Id).ToArray();
+        var existingProducts = await _ctx.Products.Where(p => ids.Contains(p.Id)).ToListAsync();
+		var updatedProducts = products.Where(p => existingProducts.Any(ep => ep.Id == p.Id));
+		return updatedProducts;
     }
 
     public async Task EditProductAsync(int productId,ProductDto dto)
