@@ -8,8 +8,8 @@ public static class ProductValidator
       if(product is null){
          throw new ArgumentNullException(nameof(product),"validation method received a null product as argument");
       }
-      if(product.Quantity < 0){
-         yield return new ValidationResult("it's not possible to define a product with a negative quantity",
+      if(product.Quantity <= 0){
+         yield return new ValidationResult("it's not possible to define a product with less than 1 unit in stock ",
          new [] {
             nameof(product.Quantity)
          });
@@ -20,23 +20,24 @@ public static class ProductValidator
             nameof(product.Price)
          });
       }
-      if(product.Category.Length > 64){
-         yield return new ValidationResult("it's not possible to define a product with a Category content bigger than 64 characters",
+      if(string.IsNullOrWhiteSpace(product.Category)){
+         yield return new ValidationResult("it's not possible to define a product with a empty Category",
          new [] {
             nameof(product.Category)
          });
       }
-      if(product.Description.Length > 64){
-         yield return new ValidationResult("it's not possible to define a product with a Description content bigger than 64 characters",
+      if(string.IsNullOrWhiteSpace(product.Description)){
+         yield return new ValidationResult("it's not possible to define a product with a empty Description",
          new [] {
             nameof(product.Description)
          });
       }
-      if(product.Title.Length > 256){
-         yield return new ValidationResult("it's not possible to define a product with a Title content bigger than 64 characters",
+      if(string.IsNullOrWhiteSpace(product.Title)){
+         yield return new ValidationResult("it's not possible to define a product with a empty Title",
          new [] {
             nameof(product.Title)
          });
       }
+      
    }
 }
