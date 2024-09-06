@@ -16,6 +16,11 @@ const providers = [
 ];
 
 if (environment.production) {
+  const dummyLog = (...data:any[]) => {};
+  console.log = dummyLog  
+  console.error = dummyLog
+  console.warn = dummyLog
+  console.debug = dummyLog
   enableProdMode();
 }
 
