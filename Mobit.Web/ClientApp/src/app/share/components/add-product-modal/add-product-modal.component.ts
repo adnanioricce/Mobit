@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ProductsService, ProductDto } from './products.service';
+import { ProductsService, ProductDto } from '../../../core/services/products.service'
 
 @Component({
   selector: 'app-add-product-modal',

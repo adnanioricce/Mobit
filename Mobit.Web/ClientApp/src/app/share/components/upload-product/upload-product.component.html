@@ -1,0 +1,12 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Carregar dados por arquivo de texto</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <label class="input-file-label" for="fileInput">Selecionar Arquivo</label>
+        <input id="fileInput" class="input-file" type="file" (change)="onFileSelected($event)" />    
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="onUpload()" [disabled]="!selectedFile">Upload</button>
+    </mat-card-actions>
+</mat-card>

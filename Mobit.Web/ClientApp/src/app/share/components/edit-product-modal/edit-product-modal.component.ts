@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ProductDto, ProductsService } from './products.service';
+import { ProductDto, ProductsService } from '../../../core/services/products.service';
 
 @Component({
   selector: 'app-edit-product-modal',

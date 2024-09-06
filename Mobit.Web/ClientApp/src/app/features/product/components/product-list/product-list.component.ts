@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ProductsService, ProductDto } from './products.service';
+import { ProductsService, ProductDto } from '../../../../core/services/products.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { EditProductModalComponent } from './edit-product-modal.component';
-import { AddProductModalComponent } from './add-product-modal.component';
+import { EditProductModalComponent } from '../../../../share/components/edit-product-modal/edit-product-modal.component';
+import { AddProductModalComponent } from '../../../../share/components/add-product-modal/add-product-modal.component';
 
 @Component({
   selector: 'app-product-list',
