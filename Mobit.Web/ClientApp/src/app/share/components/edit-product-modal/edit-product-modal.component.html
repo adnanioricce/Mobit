@@ -1,35 +1,35 @@
-<h1 mat-dialog-title>Edit Product</h1>
+<h1 mat-dialog-title>Edite o Produto</h1>
 
 <div mat-dialog-content>
   <form [formGroup]="editProductForm">
     <mat-form-field appearance="fill">
-      <mat-label>Title</mat-label>
+      <mat-label>Titulo</mat-label>
       <input matInput formControlName="title">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
-      <mat-label>Category</mat-label>
+      <mat-label>Categoria</mat-label>
       <input matInput formControlName="category">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
-      <mat-label>Price</mat-label>
+      <mat-label>Preço</mat-label>
       <input matInput type="number" formControlName="price">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
-      <mat-label>Quantity</mat-label>
+      <mat-label>Quantidade</mat-label>
       <input matInput type="number" formControlName="quantity">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
-      <mat-label>Description</mat-label>
+      <mat-label>Descrição</mat-label>
       <textarea matInput formControlName="description"></textarea>
     </mat-form-field>
   </form>
 </div>
 
 <div mat-dialog-actions>
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-button color="primary" (click)="onSave()">Save</button>
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-button color="primary" (click)="onSave()">Salvar</button>
 </div>
