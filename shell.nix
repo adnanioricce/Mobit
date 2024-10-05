@@ -18,7 +18,7 @@ pkgs.mkShell {
     # Start Docker daemon (required if running in a container or VM)
     if ! pgrep -x "dockerd" > /dev/null
     then
-      sudo systemctl start docker
+#      sudo systemctl start docker
     fi
   '';
 }
