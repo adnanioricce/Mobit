@@ -37,26 +37,14 @@ builder.Services.AddRazorPages();
 builder.Services.AddCors(opt => {
     opt.AddPolicy("Default",policyBuilder => {
         var builderWithoutOrigins = policyBuilder
-            .WithOrigins("https://localhost:44416","https://localhost:7077")
+            .WithOrigins(
+                "https://localhost:44416"
+                ,"https://localhost:7077"
+                ,"https://mobit.adnangonzagaci.com"
+            )
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials();            
-            // .AllowCredentials();
-        // if(builder.Environment.IsProduction()){
-        //     policyBuilder.WithOrigins(
-        //         "http://localhost:80"
-        //         ,"http://localhost:8080"
-        //         ,"http://localhost:5184"
-        //         ,"http://localhost:5080"
-        //         ,"*.adnangonzagaci.com"
-        //         ,"*.adnangonzaga.com"
-        //     )
-        //     .SetIsOriginAllowedToAllowWildcardSubdomains();
-        // }
-        // else
-        // {
-            // policyBuilder.AllowAnyOrigin();
-        // }
+            .AllowCredentials();
         policyBuilder.Build();
     });        
 });
