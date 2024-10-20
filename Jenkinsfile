@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'Mobit CI Build'
+        label 'MobitCISample'
     }
 
     environment {
