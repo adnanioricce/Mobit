@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'MobitCISample'
+        label 'CICDExperiment'
     }
 
     environment {
