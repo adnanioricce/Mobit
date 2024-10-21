@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'CICDExperiment'
-    }
+    agent any
 
     environment {
         DOTNET_ENVIRONMENT = 'Production'
