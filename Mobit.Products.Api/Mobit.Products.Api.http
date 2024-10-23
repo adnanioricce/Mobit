@@ -1,0 +1,6 @@
+@Mobit.Products.Api_HostAddress = http://localhost:5294
+
+GET {{Mobit.Products.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
