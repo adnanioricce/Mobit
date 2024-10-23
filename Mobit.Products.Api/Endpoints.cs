@@ -1,8 +1,9 @@
 namespace Mobit.Products.Api;
 public static class ProductEndpoints {
+  
    //[HttpGet("{id:int}")]
-   public static async Task<IActionResult> Get(int id)
-   {
+  // public static async Task<IActionResult> Get(int id)
+  // {
       /*var func = this.HandleEndpoint(async () => {
          var product = await _productService.GetProductByIdAsync(id);
          if(product is null){
@@ -13,7 +14,7 @@ public static class ProductEndpoints {
       ,_logger);
       return await func();
       */
-   }
+  // }
 
   /*
    [HttpGet]
