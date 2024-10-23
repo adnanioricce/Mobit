@@ -4,7 +4,7 @@ pkgs.mkShell {
   name = "ci-cd-env";
 
   buildInputs = [
-    pkgs.dotnet-sdk_6
+    pkgs.dotnet-sdk_8
 
     pkgs.nodejs_22
 
