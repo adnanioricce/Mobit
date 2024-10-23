@@ -5,7 +5,7 @@ pkgs.mkShell {
 
   buildInputs = [
     pkgs.dotnet-sdk_8
-
+    pkgs.dotnetCorePackages.dotnet_9.sdk
     pkgs.nodejs_22
 
     pkgs.docker
@@ -16,10 +16,10 @@ pkgs.mkShell {
     echo "Development environment is ready for CI/CD pipeline!"
 
     # Start Docker daemon (required if running in a container or VM)
-    if ! pgrep -x "dockerd" > /dev/null
-    then
+    #if ! pgrep -x "dockerd" > /dev/null
+    #then
 #      sudo systemctl start docker
-    fi
+    #fi
   '';
 }
 
