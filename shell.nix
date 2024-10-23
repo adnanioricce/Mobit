@@ -6,7 +6,7 @@ pkgs.mkShell {
   buildInputs = [
     pkgs.dotnet-sdk_6
 
-    pkgs.nodejs_22_x
+    pkgs.nodejs_22
 
     pkgs.docker
     pkgs.docker-compose

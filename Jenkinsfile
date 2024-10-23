@@ -16,8 +16,6 @@ pipeline {
 
         stage('Setup Nix Environment') {
             steps {
-                sh 'apt update && apt install -y xz-utils'
-                sh 'curl -L https://nixos.org/nix/install | sh -s -- --daemon'
                 sh 'nix-shell --run "echo Nix environment set up"'
             }
         }
