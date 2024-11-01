@@ -1,6 +1,6 @@
 services:
   app:
-    image: localhost:5000/mobitweb:dev
+    image: homelab-dev:5100/mobitweb:dev
     build:
       context: Mobit.Web
       dockerfile: Dockerfile
@@ -14,7 +14,7 @@ services:
     networks:
       - mobitnet
   db:
-    image: localhost:5000/mobitdb:dev
+    image: homelab-dev:5100/mobitdb:dev
     build:
       context: Database
     ports:
