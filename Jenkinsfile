@@ -31,13 +31,13 @@ pipeline {
                 sh 'nix-shell --run "dotnet test Mobit.Tests/Mobit.Tests.csproj"'
             }
         }
-/*
+
         stage('Build Docker Images') {
             steps {
                 sh 'nix-shell --run "docker-compose build"'
             }
         }
-
+/*
         stage('Run Integration Tests') {
             steps {
                 sh 'nix-shell --run "dotnet test path/to/API.IntegrationTests"'
