@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  default-connection-string: "Host=db-service;Username=mobituser;Password=mobitpass;Database=mobitdb"
+

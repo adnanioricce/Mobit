@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: db
+          image: homelab-dev:5100/mobitdb:dev
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "mobitdb"
+            - name: POSTGRES_USER
+              value: "mobituser"
+            - name: POSTGRES_PASSWORD
+              value: "mobitpass"
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+spec:
+  selector:
+    app: db
+  ports:
+    - protocol: TCP
+      port: 5456
+      targetPort: 5432
+  type: ClusterIP
+
